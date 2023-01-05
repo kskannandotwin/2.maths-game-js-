@@ -1,5 +1,7 @@
 var playing = false;
 var score;
+var action;
+var timeremaining;
 
 // if we click on start/restart button
 document.getElementById('startreset').onclick = function() {
@@ -17,10 +19,21 @@ document.getElementById('startreset').onclick = function() {
         document.getElementById('scorevalue').innerHTML = score;
 
         // show countdown box
-        document.getElementById('timeremaining').style.display = 'block';
+        show('timeremaining');
+        timeremaining = 60;
+        document.getElementById('timeremainingvalue').innerHTML = timeremaining;
+
+        // hide game over box
+        hide('gameOver');
 
         // change button to reset
         document.getElementById('startreset').innerHTML = 'Reset Game';
+
+        // start countdown
+        startCountdown();
+
+        // generate a new q&a
+        generateQA();
     }
 
     
@@ -46,6 +59,46 @@ document.getElementById('startreset').onclick = function() {
                 // generate new q and a
             // no
                 // show try again box for 1sec
+
+// functions
+
+// start counter
+function startCountdown() {
+    action = setInterval(function() {
+        timeremaining -= 1;
+        document.getElementById('timeremainingvalue').innerHTML = timeremaining;
+        if (timeremaining == 0) {
+            stopCountdown();
+            show('gameOver');
+            document.getElementById('gameOver').innerHTML = '<p>Game over!</p><p>Your score is ' + score + '.</p>';
+            hide('timeremaining');
+            hide('correct');
+            hide('wrong');
+            playing = false;
+            document.getElementById('startreset').innerHTML = 'Start Game';
+        }
+    }, 1000);
+}
+
+// stop counter
+function stopCountdown() {
+    clearInterval(action);
+}
+
+// hide an element
+function hide(Id) {
+    document.getElementById(Id).style.display = 'none';
+}
+
+// show an element
+function show(Id) {
+    document.getElementById(Id).style.display = 'block';
+}
+
+// generate question and multiple answers
+function generateQA() {
+
+}
 
 
 
